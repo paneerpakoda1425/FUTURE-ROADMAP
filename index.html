@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reverse Career Quest | Treasure Map Architect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animated Floating Multi-Color Mesh Background */
+    @keyframes float1 {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(45px, -35px) scale(1.12); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+    @keyframes float2 {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(-40px, 30px) scale(1.08); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .mesh-blob-red {
+      animation: float1 15s ease-in-out infinite alternate;
+    }
+    .mesh-blob-purple {
+      animation: float2 18s ease-in-out infinite alternate;
+    }
+    .mesh-blob-blue {
+      animation: float1 22s ease-in-out infinite alternate-reverse;
+    }
+
+    .island-node {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .island-node:hover {
+      border-color: #ef4444 !important;
+      transform: translateY(-2px);
+    }
+    .island-active {
+      border-color: #ef4444 !important;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(15, 23, 42, 0.95)) !important;
+      box-shadow: 0 0 25px -2px rgba(239, 68, 68, 0.45);
+    }
+  </style>
+</head>
+<body class="bg-[#06080e] text-slate-100 min-h-screen p-4 md:p-8 font-sans selection:bg-red-500 selection:text-white relative overflow-x-hidden">
+
+  <!-- Animated Floating Multi-Color Gradient Mesh Background -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="mesh-blob-red absolute -top-20 -left-20 w-[550px] h-[550px] bg-red-600/25 rounded-full blur-[130px]"></div>
+    <div class="mesh-blob-purple absolute top-1/3 -right-20 w-[520px] h-[520px] bg-purple-700/25 rounded-full blur-[140px]"></div>
+    <div class="mesh-blob-blue absolute -bottom-32 left-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[150px]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] bg-amber-600/15 rounded-full blur-[130px]"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto space-y-6">
+
+    <!-- Top Navigation Header -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between border-b border-red-950/80 pb-5 gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono font-bold">QUEST // ENGINE</span>
+          <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Reverse Engineering Map</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Reverse-Engineered Career Quest</h1>
+        <p class="text-slate-400 text-xs md:text-sm mt-0.5">Start from the ultimate treasure and trace the checkpoints back to Day 1.</p>
+      </div>
+
+      <!-- Archetype Quick Presets -->
+      <div class="flex flex-wrap items-center gap-2 bg-slate-900/90 border border-red-900/40 p-1.5 rounded-xl backdrop-blur-md">
+        <span class="text-[11px] font-semibold text-slate-400 px-2">Quests:</span>
+        <button type="button" onclick="selectPreset('railway')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-red-900/60 hover:text-white text-slate-200 transition">Loco Pilot / Railways</button>
+        <button type="button" onclick="selectPreset('ai')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-red-900/60 hover:text-white text-slate-200 transition">AI Systems Architect</button>
+        <button type="button" onclick="selectPreset('sre')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-red-900/60 hover:text-white text-slate-200 transition">Staff SRE / Cloud</button>
+      </div>
+    </header>
+
+    <!-- Custom Dream Intake Form -->
+    <section class="bg-slate-900/75 border border-red-950 rounded-2xl p-5 backdrop-blur-md shadow-xl">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">1. Your Current Standing</label>
+          <input id="inCurrent" type="text" value="1st Year B.Tech" class="w-full bg-[#0d1322] border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-slate-200 focus:outline-none focus:border-red-500 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">2. Ultimate Dream Treasure (Job)</label>
+          <input id="inRole" type="text" value="Assistant Loco Pilot / Railway Engineer" class="w-full bg-[#0d1322] border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-slate-200 focus:outline-none focus:border-red-500 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">3. Target Citadel / Organization</label>
+          <input id="inOrg" type="text" value="Indian Railways (RRB / Central)" class="w-full bg-[#0d1322] border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-slate-200 focus:outline-none focus:border-red-500 transition">
+        </div>
+        <div class="flex items-end">
+          <button type="button" onclick="deconstructCustomPlan()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-red-600/30">
+            Deconstruct Quest &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RPG Gamified Level & XP Tracker Banner -->
+    <section class="bg-gradient-to-r from-red-950/40 via-slate-900/80 to-purple-950/30 border border-red-900/50 rounded-2xl p-5 space-y-3 backdrop-blur-md shadow-xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-2xl" id="rankBadgeIcon">
+            ⚔️
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs uppercase tracking-wider text-red-400 font-bold font-mono">ADVENTURER RANK</span>
+              <span id="rankTitle" class="text-xs px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 font-bold">Novice Apprentice</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-white">Level <span id="levelNum" class="text-red-400 font-mono">1</span> &bull; <span id="xpPoints" class="font-mono text-amber-400">0</span> XP</h3>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+          <div class="text-center px-2">
+            <div class="text-[10px] uppercase text-slate-500 font-bold">Expedition Streak</div>
+            <div id="streakCount" class="text-base font-bold text-red-400 font-mono">14 Days</div>
+          </div>
+          <button type="button" onclick="addStreakDay()" class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">+ Log Today</button>
+        </div>
+      </div>
+
+      <!-- Treasure Progress Bar -->
+      <div class="space-y-1.5 pt-2">
+        <div class="flex justify-between text-xs">
+          <span class="text-slate-400">Treasure Map Completion: <span id="progressText" class="text-red-400 font-mono font-bold">0%</span></span>
+          <span class="text-amber-400 font-mono font-semibold" id="questMilestoneStatus">0 / 8 Quests Cleared</span>
+        </div>
+        <div class="w-full bg-slate-950 h-3 rounded-full border border-slate-800 overflow-hidden p-0.5">
+          <div id="progressBar" class="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace (Left: 4 Islands | Right: Execution & Checklist Panel) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Reverse Island Pathway (Left 7 Cols) -->
+      <div class="lg:col-span-7 bg-slate-900/60 p-5 rounded-xl border border-red-950/80 space-y-3 backdrop-blur-md">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-mono text-red-400 font-bold">🗺️ THE 4 TREASURE ISLANDS</span>
+          <span class="text-[11px] text-slate-400">Tap any island to open execution logs</span>
+        </div>
+
+        <!-- Island 4 (Terminal Treasure) -->
+        <div id="card4" onclick="selectIsland(4)" class="island-node island-active p-4 rounded-xl border border-red-900/60 bg-slate-950/80 flex items-center justify-between">
+          <div class="flex items-center gap-3.5">
+            <span class="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 border border-red-500/40 flex items-center justify-center text-lg font-bold" id="icon4">👑</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 id="title4" class="text-sm font-bold text-white">Island 4: Terminal Citadel & Official Offer</h4>
+                <span id="clearedBadge4" class="hidden text-[10px] px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">✓ CLEARED</span>
+              </div>
+              <p id="sub4" class="text-[11px] text-slate-400 mt-0.5">Final Destination &bull; Final Merit Rank & Training</p>
+            </div>
+          </div>
+          <span id="badge4" class="text-[10px] px-2.5 py-1 rounded-full font-bold bg-red-600/30 text-red-200 border border-red-500/50">TREASURE</span>
+        </div>
+
+        <div class="text-center text-red-900 text-xs font-mono py-0.5">▲ <span class="text-[10px] text-slate-500">Conquer Island 3 first</span></div>
+
+        <!-- Island 3 (Authority Fortress) -->
+        <div id="card3" onclick="selectIsland(3)" class="island-node p-4 rounded-xl border border-slate-800 bg-slate-950/80 flex items-center justify-between">
+          <div class="flex items-center gap-3.5">
+            <span class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 flex items-center justify-center text-lg font-bold" id="icon3">🛡️</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 id="title3" class="text-sm font-bold text-slate-100">Island 3: Specialized Competence & Filters</h4>
+                <span id="clearedBadge3" class="hidden text-[10px] px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">✓ CLEARED</span>
+              </div>
+              <p id="sub3" class="text-[11px] text-slate-400 mt-0.5">Months 16 - 24 &bull; Advanced Selection Proof</p>
+            </div>
+          </div>
+          <span id="badge3" class="text-[10px] px-2.5 py-1 rounded-full font-bold bg-slate-800 text-slate-300">AUTHORITY</span>
+        </div>
+
+        <div class="text-center text-red-900 text-xs font-mono py-0.5">▲ <span class="text-[10px] text-slate-500">Conquer Island 2 first</span></div>
+
+        <!-- Island 2 (Deep Crucible) -->
+        <div id="card2" onclick="selectIsland(2)" class="island-node p-4 rounded-xl border border-slate-800 bg-slate-950/80 flex items-center justify-between">
+          <div class="flex items-center gap-3.5">
+            <span class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 flex items-center justify-center text-lg font-bold" id="icon2">⚒️</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 id="title2" class="text-sm font-bold text-slate-100">Island 2: Core Engineering & Stress Depth</h4>
+                <span id="clearedBadge2" class="hidden text-[10px] px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">✓ CLEARED</span>
+              </div>
+              <p id="sub2" class="text-[11px] text-slate-400 mt-0.5">Months 8 - 16 &bull; Technical Rigor & Edge Cases</p>
+            </div>
+          </div>
+          <span id="badge2" class="text-[10px] px-2.5 py-1 rounded-full font-bold bg-slate-800 text-slate-300">DEPTH</span>
+        </div>
+
+        <div class="text-center text-red-900 text-xs font-mono py-0.5">▲ <span class="text-[10px] text-slate-500">Conquer Island 1 first</span></div>
+
+        <!-- Island 1 (First Harbor) -->
+        <div id="card1" onclick="selectIsland(1)" class="island-node p-4 rounded-xl border border-slate-800 bg-slate-950/80 flex items-center justify-between">
+          <div class="flex items-center gap-3.5">
+            <span class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 flex items-center justify-center text-lg font-bold" id="icon1">🧭</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 id="title1" class="text-sm font-bold text-slate-100">Island 1: Day-1 First Principles Harbor</h4>
+                <span id="clearedBadge1" class="hidden text-[10px] px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">✓ CLEARED</span>
+              </div>
+              <p id="sub1" class="text-[11px] text-slate-400 mt-0.5">Months 1 - 8 &bull; Core Primitives & Foundational Math</p>
+            </div>
+          </div>
+          <span id="badge1" class="text-[10px] px-2.5 py-1 rounded-full font-bold bg-slate-800 text-slate-300">FOUNDATIONS</span>
+        </div>
+      </div>
+
+      <!-- Island Inspection: How To Execute + Checklist + Resources (Right 5 Cols) -->
+      <div class="lg:col-span-5 bg-slate-900/90 p-6 rounded-xl border border-red-950/80 space-y-4 sticky top-6 shadow-2xl backdrop-blur-md">
+        <div class="border-b border-red-950 pb-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-red-400 font-mono" id="islandBadge">TREASURE ISLAND</span>
+            <span class="text-xs text-amber-400 font-mono font-semibold" id="islandDuration">Final Milestone</span>
+          </div>
+          <h2 class="text-lg font-extrabold text-white mt-1" id="islandTitle">🎯 Terminal Goal</h2>
+          <p class="text-xs text-slate-400 mt-0.5" id="islandDesc">Overview</p>
+        </div>
+
+        <div class="space-y-3.5 text-xs">
+          <!-- Step-by-Step HOW TO EXECUTE Section -->
+          <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+            <h4 class="font-bold text-red-400 uppercase tracking-wide flex items-center gap-1.5">
+              <span>🎯</span> Kaise Krna Hai (Practical Execution Blueprint)
+            </h4>
+            <p class="text-slate-200 mt-1.5 leading-relaxed text-[11px]" id="islandHowTo">Loading actionable steps...</p>
+          </div>
+
+          <!-- Mandatory Qualifications Box -->
+          <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+            <h4 class="font-bold text-red-400 uppercase tracking-wide flex items-center gap-1.5">
+              <span>🎓</span> Mandatory Qualification & Eligibility
+            </h4>
+            <p class="text-slate-200 mt-1.5 leading-relaxed text-[11px]" id="islandQual">Loading...</p>
+          </div>
+
+          <!-- Interactive Completion Checklist -->
+          <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+            <div class="flex justify-between items-center mb-1.5">
+              <h4 class="font-bold text-red-400 uppercase tracking-wide flex items-center gap-1.5">
+                <span>📋</span> Required Quests Checklist (Tick When Done)
+              </h4>
+              <span class="text-[10px] text-amber-400 font-mono font-bold">+50 XP</span>
+            </div>
+            <div class="space-y-2 mt-2" id="todoContainer">
+              <!-- Dynamically populated checkboxes -->
+            </div>
+          </div>
+
+          <!-- Curated Source & Reference Library -->
+          <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+            <h4 class="font-bold text-red-400 uppercase tracking-wide flex items-center gap-1.5">
+              <span>📚</span> Exact Curated Sources & Reference Library
+            </h4>
+            <div class="mt-2 space-y-1.5" id="resourceContainer">
+              <!-- Dynamically populated reference cards -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Roadblock Protocols -->
+    <section class="bg-slate-900/60 border border-red-950/80 rounded-2xl p-5 space-y-3 backdrop-blur-md">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-red-400 flex items-center gap-2">
+        <span>🛡️</span> Expedition Roadblock Protocols
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+          <span class="text-red-400 font-bold">⚠️ Tutorial Hell Trap:</span>
+          <p class="text-slate-400 mt-1">Watching 40+ hours of video lessons without attempting timed exams or building live code.</p>
+          <p class="text-emerald-400 mt-1.5 font-semibold">&rarr; Practical Fix: 1:3 Execution Rule. 1 hour reading ke badle 3 hours practical testing karo.</p>
+        </div>
+        <div class="bg-slate-950/90 p-3.5 rounded-xl border border-red-950/80">
+          <span class="text-red-400 font-bold">⚠️ Mid-Journey Motivation Crash:</span>
+          <p class="text-slate-400 mt-1">Month 3-5 me syllabus ka complexity badhne se momentum tut jana.</p>
+          <p class="text-emerald-400 mt-1.5 font-semibold">&rarr; Practical Fix: Daily expedition streak maintain karo. 25 minute revision bhi streak ko active rakhti hai.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Motivational Quote Footer -->
+    <footer class="bg-gradient-to-r from-red-950/40 via-purple-950/30 to-slate-900/50 border border-red-900/40 rounded-2xl p-6 text-center backdrop-blur-md">
+      <div class="text-red-400 text-xl mb-1 font-serif">“</div>
+      <p class="text-sm md:text-base font-semibold text-slate-200 tracking-wide max-w-3xl mx-auto italic">
+        "You do not rise to the level of your goals. You fall to the level of your systems. Reverse-engineer the summit, conquer one island at a time, and the treasure becomes inevitable."
+      </p>
+      <div class="text-[11px] text-slate-500 font-mono mt-3 uppercase tracking-widest">&mdash; Reverse Career Architect Blueprint &bull; 24h Hackathon Edition</div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Comprehensive Data Store
+    const questDb = {
+      railway: {
+        current: "1st Year B.Tech",
+        role: "Assistant Loco Pilot / Railway Engineer",
+        org: "Indian Railways (RRB / Central)",
+        islands: {
+          4: {
+            title: "🎯 Terminal Citadel: Indian Railways ALP Appointment",
+            badge: "TREASURE ISLAND",
+            duration: "Final Stage (Offer & Training)",
+            desc: "Final appointment letter, zonal merit ranking, and 6-month specialized traction training.",
+            howTo: "Document verification clear karo, railway hospital me vision test do, aur central merit list me zonal rank secure karo.",
+            qual: "B.Tech / Diploma in Mechanical, Electrical, Electronics or Automobile Engineering (or ITI Trade Certificate in relevant stream).",
+            todos: [
+              { id: "rw4_1", text: "Clear Official Document Verification with all original semester marksheet transcripts." },
+              { id: "rw4_2", text: "Clear Railway Medical Standard A-1: 6/6 vision in each eye without glasses, zero color blindness." }
+            ],
+            sources: [
+              { name: "Official RRB Portal", link: "rrbcdg.gov.in (Official Exam Notifications & Zonal Cutoffs)" },
+              { na
+                
