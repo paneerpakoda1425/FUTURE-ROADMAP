@@ -1,313 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reverse Roadmap | Strategic Career Architecture</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .stage-card {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-    }
-    .stage-card:hover {
-      border-color: #dc2626 !important;
-      transform: translateY(-2px);
-    }
-    .stage-active {
-      border-color: #dc2626 !important;
-      background: #ffffff !important;
-      box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.12), 0 8px 10px -6px rgba(220, 38, 38, 0.08) !important;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GPTChat</title>
+<style>
+:root{--bg:#ffffff;--side:#f4f5f7;--ink:#1f2328;--mute:#6b7280;--line:#e5e7eb;--brand:#10a37f;--user:#eef2f6;--code:#0f172a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#212327;--side:#17181b;--ink:#ececf1;--mute:#9ca3af;--line:#33363c;--user:#2c2f35;--code:#0b0c0e}}
+:root[data-theme="dark"]{--bg:#212327;--side:#17181b;--ink:#ececf1;--mute:#9ca3af;--line:#33363c;--user:#2c2f35;--code:#0b0c0e}
+*{box-sizing:border-box}html,body{height:100%;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+button,textarea{font:inherit;color:var(--ink)}
+.app{display:flex;height:100%}
+aside{width:270px;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px;gap:8px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;padding:4px 6px 8px}
+.logo{width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:.8rem}
+.new{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;cursor:pointer;text-align:left;font-weight:600}
+.new:hover,.ch:hover{border-color:var(--brand)}
+#list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px;border-radius:10px;cursor:pointer;border:1px solid transparent;font-size:.92rem}
+.ch span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ch.on{background:var(--bg);border-color:var(--line)}
+.ch button{background:none;border:0;cursor:pointer;color:var(--mute);padding:2px 6px;border-radius:6px}.ch button:hover{color:#dc2626}
+main{flex:1;display:flex;flex-direction:column;min-width:0}
+.bar{display:none;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.bar button{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+#msgs{flex:1;overflow:auto;padding:20px 14px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.row{display:flex;gap:12px}.row.u{justify-content:flex-end}
+.av{width:30px;height:30px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.b{line-height:1.65;min-width:0;overflow-wrap:anywhere}.row.u .b{background:var(--user);padding:10px 14px;border-radius:16px;max-width:80%}
+.b pre{background:var(--code);color:#e5e7eb;padding:12px;border-radius:10px;overflow-x:auto;margin:8px 0;font-size:.85rem}
+.b code{font-family:Consolas,Menlo,monospace}.b :not(pre)>code{background:var(--user);padding:1px 6px;border-radius:5px;font-size:.88em}
+.cp{background:none;border:0;color:var(--mute);cursor:pointer;font-size:.78rem;padding:2px 0;margin-top:4px}
+.dots span{display:inline-block;width:7px;height:7px;margin-right:4px;border-radius:50%;background:var(--mute);animation:bl 1s infinite}
+.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes bl{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.empty{text-align:center;padding-top:9vh}.empty h1{font-size:2rem;margin:0 0 6px}.empty p{color:var(--mute);margin:0 0 22px}
+.sug{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:560px;margin:0 auto}
+.sug button{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px;cursor:pointer;text-align:left;font-size:.9rem}.sug button:hover{border-color:var(--brand)}
+.comp{padding:8px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+.box{max-width:760px;margin:0 auto;display:flex;align-items:flex-end;gap:8px;border:1px solid var(--line);border-radius:18px;padding:8px 8px 8px 14px;background:var(--bg)}
+.box:focus-within{border-color:var(--brand)}
+textarea{flex:1;border:0;outline:0;background:none;resize:none;max-height:180px;line-height:1.5;padding:6px 0}
+#go{width:38px;height:38px;border-radius:50%;border:0;background:var(--brand);color:#fff;cursor:pointer;font-size:1.1rem}
+#go:disabled{opacity:.4;cursor:default}.note{text-align:center;color:var(--mute);font-size:.74rem;margin-top:6px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+@media(max-width:760px){
+ aside{position:fixed;top:0;bottom:0;left:0;z-index:10;transform:translateX(-100%);transition:transform .2s;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+ aside.open{transform:none}.bar{display:flex}.sug{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.gen{max-width:100%;width:420px;border-radius:14px;display:block;background:var(--user);min-height:120px}.dl{font-size:.8rem;color:var(--mute)}.tg{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:1.05rem}.tg.on{background:var(--brand);border-color:var(--brand)}
+</style>
 </head>
-<body class="bg-[#f0f6fc] text-slate-800 min-h-screen p-4 md:p-8 font-sans selection:bg-red-600 selection:text-white">
-
-  <!-- Subtle Corporate Backdrop Gradient -->
-  <div class="fixed inset-0 pointer-events-none -z-10 bg-gradient-to-br from-[#ebf3fc] via-[#f0f6fc] to-[#e4eef9]"></div>
-
-  <div class="relative max-w-7xl mx-auto space-y-6">
-
-    <!-- Header Section -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-5 gap-4">
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 rounded bg-red-100 border border-red-200 text-red-700 text-xs font-mono font-bold tracking-wider">STRATEGY // ENGINE</span>
-          <span class="text-xs uppercase tracking-widest text-slate-500 font-semibold">Back-Propagation Model</span>
-        </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Reverse Roadmap</h1>
-        <p class="text-slate-600 text-xs md:text-sm mt-0.5">Start from target enterprise requirements and deconstruct down to baseline foundational metrics.</p>
-      </div>
-
-      <!-- Presets -->
-      <div class="flex flex-wrap items-center gap-2 bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm">
-        <span class="text-[11px] font-semibold text-slate-500 px-2">Presets:</span>
-        <button type="button" onclick="loadPreset('railway')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-700 text-slate-700 font-medium transition">Loco Pilot / Railway Engineering</button>
-        <button type="button" onclick="loadPreset('ai')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-700 text-slate-700 font-medium transition">Machine Learning Systems</button>
-        <button type="button" onclick="loadPreset('sre')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-700 text-slate-700 font-medium transition">Site Reliability / Platform</button>
-      </div>
-    </header>
-
-    <!-- Custom Goal Intake Form -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div>
-          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">1. Current Standing</label>
-          <input id="inCurrent" type="text" value="1st Year B.Tech" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-800 focus:outline-none focus:border-red-600 focus:bg-white transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">2. Target Role Objective</label>
-          <input id="inRole" type="text" value="Assistant Loco Pilot / Railway Engineer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-800 focus:outline-none focus:border-red-600 focus:bg-white transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">3. Target Organization</label>
-          <input id="inOrg" type="text" value="Indian Railways (RRB / Central)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-800 focus:outline-none focus:border-red-600 focus:bg-white transition">
-        </div>
-        <div class="flex items-end">
-          <button type="button" onclick="deconstructCustomPlan()" class="w-full bg-green-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow-sm">
-            Generate Reverse Roadmap &rarr;
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Progress & Verification Dashboard -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center font-mono font-bold text-red-600 text-sm">
-            SYS
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs uppercase tracking-wider text-red-700 font-bold font-mono">EXECUTION STATUS</span>
-              <span id="rankTitle" class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200 font-semibold">Tier 1: Foundations</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900">Milestone Progress &bull; <span id="xpPoints" class="font-mono text-slate-700">0</span> Validation Score</h3>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <div class="text-center px-2">
-            <div class="text-[10px] uppercase text-slate-500 font-bold">Consistent Days Logged</div>
-            <div id="streakCount" class="text-base font-bold text-slate-900 font-mono">14 Days</div>
-          </div>
-          <button type="button" onclick="addStreakDay()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">+ Log Day</button>
-        </div>
-      </div>
-
-      <!-- Roadmap Progress Bar -->
-      <div class="space-y-1.5 pt-2">
-        <div class="flex justify-between text-xs font-medium">
-          <span class="text-slate-600">Overall Verification Progress: <span id="progressText" class="text-red-700 font-mono font-bold">0%</span></span>
-          <span class="text-slate-600 font-mono font-semibold" id="questMilestoneStatus">0 of 8 Verification Tasks Completed</span>
-        </div>
-        <div class="w-full bg-slate-100 h-2.5 rounded-full border border-slate-200 overflow-hidden">
-          <div id="progressBar" class="bg-red-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      
-      <!-- Reverse Pipeline Column (Left 7 Cols) -->
-      <div class="lg:col-span-7 bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-sm">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-mono text-slate-900 font-bold uppercase tracking-wider">SEQUENTIAL REVERSE BLUEPRINT</span>
-          <span class="text-[11px] text-slate-500 font-medium">Click any phase for detailed breakdown</span>
-        </div>
-
-        <!-- Stage 4 -->
-        <div id="card4" onclick="selectIsland(4)" class="stage-card stage-active p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
-          <div class="flex items-center gap-3.5">
-            <span class="w-9 h-9 rounded-lg bg-red-100 text-red-700 border border-red-200 flex items-center justify-center font-mono font-bold text-sm">P4</span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 id="title4" class="text-sm font-bold text-slate-900">Phase 4: Terminal Target Verification</h4>
-                <span id="clearedBadge4" class="hidden text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold uppercase">Cleared</span>
-              </div>
-              <p id="sub4" class="text-[11px] text-slate-500 mt-0.5">Final Horizon &bull; Official Appointment & System Integration</p>
-            </div>
-          </div>
-          <span id="badge4" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-red-50 text-red-700 border border-red-200 uppercase tracking-wide">Target</span>
-        </div>
-
-        <div class="text-center text-slate-400 text-xs font-mono py-0.5">&uarr; <span class="text-[10px] text-slate-500 font-sans">Prerequisite requirement for Phase 4</span></div>
-
-        <!-- Stage 3 -->
-        <div id="card3" onclick="selectIsland(3)" class="stage-card p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
-          <div class="flex items-center gap-3.5">
-            <span class="w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 flex items-center justify-center font-mono font-bold text-sm">P3</span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 id="title3" class="text-sm font-bold text-slate-800">Phase 3: Specialized Competency & Filtering</h4>
-                <span id="clearedBadge3" class="hidden text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold uppercase">Cleared</span>
-              </div>
-              <p id="sub3" class="text-[11px] text-slate-500 mt-0.5">Months 16 - 24 &bull; Advanced Validation & Selection Filter</p>
-            </div>
-          </div>
-          <span id="badge3" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-wide">Validation</span>
-        </div>
-
-        <div class="text-center text-slate-400 text-xs font-mono py-0.5">&uarr; <span class="text-[10px] text-slate-500 font-sans">Prerequisite requirement for Phase 3</span></div>
-
-        <!-- Stage 2 -->
-        <div id="card2" onclick="selectIsland(2)" class="stage-card p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
-          <div class="flex items-center gap-3.5">
-            <span class="w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 flex items-center justify-center font-mono font-bold text-sm">P2</span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 id="title2" class="text-sm font-bold text-slate-800">Phase 2: Core Engineering Depth</h4>
-                <span id="clearedBadge2" class="hidden text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold uppercase">Cleared</span>
-              </div>
-              <p id="sub2" class="text-[11px] text-slate-500 mt-0.5">Months 8 - 16 &bull; Technical Rigor & Stress Scenarios</p>
-            </div>
-          </div>
-          <span id="badge2" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-wide">Depth</span>
-        </div>
-
-        <div class="text-center text-slate-400 text-xs font-mono py-0.5">&uarr; <span class="text-[10px] text-slate-500 font-sans">Prerequisite requirement for Phase 2</span></div>
-
-        <!-- Stage 1 -->
-        <div id="card1" onclick="selectIsland(1)" class="stage-card p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
-          <div class="flex items-center gap-3.5">
-            <span class="w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 flex items-center justify-center font-mono font-bold text-sm">P1</span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 id="title1" class="text-sm font-bold text-slate-800">Phase 1: Baseline First Principles</h4>
-                <span id="clearedBadge1" class="hidden text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold uppercase">Cleared</span>
-              </div>
-              <p id="sub1" class="text-[11px] text-slate-500 mt-0.5">Months 1 - 8 &bull; Core Mathematical & Technical Primitives</p>
-            </div>
-          </div>
-          <span id="badge1" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-wide">Foundations</span>
-        </div>
-      </div>
-
-      <!-- Detail Inspection Panel (Right 5 Cols) -->
-      <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 space-y-4 sticky top-6 shadow-sm">
-        <div class="border-b border-slate-200 pb-3">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-red-700 font-mono" id="islandBadge">PHASE 4</span>
-            <span class="text-xs text-slate-600 font-mono font-semibold" id="islandDuration">Final Milestone</span>
-          </div>
-          <h2 class="text-lg font-bold text-slate-900 mt-1" id="islandTitle">Terminal Objective</h2>
-          <p class="text-xs text-slate-600 mt-0.5" id="islandDesc">Overview</p>
-        </div>
-
-        <div class="space-y-3.5 text-xs">
-          <!-- Step-by-Step Execution Plan -->
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 uppercase tracking-wide">
-              Practical Execution Framework
-            </h4>
-            <p class="text-slate-600 mt-1.5 leading-relaxed text-[11px]" id="islandHowTo">Loading actionable steps...</p>
-          </div>
-
-          <!-- Mandatory Qualifications Box -->
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 uppercase tracking-wide">
-              Mandatory Qualification & Evaluation Criteria
-            </h4>
-            <p class="text-slate-600 mt-1.5 leading-relaxed text-[11px]" id="islandQual">Loading criteria...</p>
-          </div>
-
-          <!-- Checklist -->
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-            <div class="flex justify-between items-center mb-1.5">
-              <h4 class="font-bold text-slate-800 uppercase tracking-wide">
-                Key Verification Deliverables
-              </h4>
-              <span class="text-[10px] text-red-700 font-mono font-bold">+50 PTS</span>
-            </div>
-            <div class="space-y-2 mt-2" id="todoContainer"></div>
-          </div>
-
-          <!-- Resources Box -->
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 uppercase tracking-wide">
-              Verified Technical Documentation & References
-            </h4>
-            <div class="mt-2 space-y-1.5" id="resourceContainer"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Realistic Roadblock Protocols -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm">
-      <h3 class="text-sm font-bold uppercase tracking-wider text-slate-800">
-        Execution Risk Mitigation Protocols
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-          <span class="text-red-700 font-bold">Risk: Passive Learning (Tutorial Trap)</span>
-          <p class="text-slate-600 mt-1">Consuming passive video content without building verifiable projects or solving timed problems.</p>
-          <p class="text-slate-800 mt-1.5 font-semibold">&rarr; Resolution: The 1:3 Rule. Dedicate 1 hour to theoretical absorption and 3 hours to measurable code/problem execution.</p>
-        </div>
-        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-          <span class="text-red-700 font-bold">Risk: Mid-Curriculum Retention Loss</span>
-          <p class="text-slate-600 mt-1">Syllabus complexity scaling rapidly leading to progress stagnation between Months 3 and 5.</p>
-          <p class="text-slate-800 mt-1.5 font-semibold">&rarr; Resolution: Maintain uninterrupted cadence. A focused 30-minute daily review preserves cumulative retention.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Professional Footer -->
-    <footer class="bg-white border border-slate-200 rounded-2xl p-5 text-center shadow-sm">
-      <p class="text-xs md:text-sm font-medium text-slate-700 max-w-2xl mx-auto">
-        "Achievement is a byproduct of structured workflows. By back-propagating terminal standards into verifiable daily metrics, target realization becomes systematic."
-      </p>
-      <div class="text-[11px] text-slate-400 font-mono mt-2 uppercase tracking-widest">&mdash; Reverse Roadmap Architecture</div>
-    </footer>
-
+<body>
+<div class="app">
+<aside id="side">
+  <div class="brand"><span class="logo">G</span>GPTChat</div>
+  <button class="new" id="new">+ New chat</button>
+  <button class="new" id="key">🔑 API key</button>
+  <div id="list"></div>
+</aside>
+<main>
+  <div class="bar"><button id="menu" aria-label="Open chats">☰</button><b>GPTChat</b></div>
+  <div id="msgs"><div class="wrap" id="wrap"></div></div>
+  <div class="comp">
+    <div class="box"><button class="tg" id="img" title="Image mode" aria-label="Image mode">🎨</button><textarea id="in" rows="1" placeholder="Kuch bhi poochho... (image ke liye 🎨 dabao)"></textarea><button id="go" aria-label="Send">➤</button></div>
+    <div class="note">AI galti kar sakta hai. Zaroori baatein dobara check karo.</div>
   </div>
-
-  <script>
-    const questDb = {
-      railway: {
-        current: "1st Year B.Tech",
-        role: "Assistant Loco Pilot / Railway Engineer",
-        org: "Indian Railways (RRB / Central)",
-        islands: {
-          4: {
-            title: "Phase 4: Official Zonal Merit & Medical Certification",
-            badge: "TARGET",
-            duration: "Final Stage (Appointment & Training)",
-            desc: "Formal document verification, compliance validation, and enrollment in specialized electric/diesel traction training.",
-            howTo: "Clear document audit with authenticated transcripts, clear official A-1 vision assessment at Railway Medical Board, and confirm zonal allotment rank.",
-            qual: "B.Tech or Diploma in Mechanical, Electrical, Electronics or Automobile Engineering (or relevant ITI technical qualification).",
-            todos: [
-              { id: "rw4_1", text: "Complete official verification dossier with all degree credentials and identity records." },
-              { id: "rw4_2", text: "Clear Medical Standard A-1: 6/6 distance visual acuity without refractive correction, zero color deficiency." }
-            ],
-            sources: [
-              { name: "Railway Recruitment Control Board", link: "rrbcdg.gov.in (Official Gazette & Notification Standards)" },
-              { name: "General & Subsidiary Rules (G&SR)", link: "Operational Rulebook for Indian Railway Train Working" }
-            ]
-          },
-          3: {
-            title: "Phase 3: Technical Trade Competence & Psychometric Battery",
-            badge: "VALIDATION",
-            duration: "Months 16 - 24",
-            desc: "Passing relevant specialized trade evaluations and computer-based psychometric reaction assessments (CBAT).",
-            howTo: "Conduct daily timed tests across all 5 psychometric batteries (Memory, Spatial Orientation, Depth) and review mechanical/electrical engineering theory.",
-            qual: "Minimum 35% qualifying threshold in Technical Trade (Part B) and 42+ T-Score across all 5 CBAT Batteries.",
-            todos: [
-              { id: "rw3_1", text: "Achieve minimum 42 T-Score in all 5 Computer Based Aptitude Test (CBAT) components." },
-              { id: "rw3_2", text: "Solve 1,500 domain theory questions covering Heat Engines, Power Systems, and Basic Electronics." }
-            ],
-            sources: [
-              { name: "RDSO Psychometric Standards", link: "Research Designs & Standards Organisation Aptitude Guidelines" },
-              { name: "NIMI Technical Trade Modules", link: "National Instructional Media Institute Core Engineering Books" }
-            ]
-          },
-          2: {
-            title: "Phase 2: Core Engineering Sciences & Numerical Rigor",
-            badge: "DEPTH",
-            duration: "Months 8 - 16",
-            desc: "The primary merit-determining written stage (CBT-2 Part A): Basic Science, Engineering Mathematics, and Analytical Reasoning.",
-            howTo: "Systematically solve quantitative problem sets in Engineering Drawing, Mechanics, Work-Power-Energy, and Circuit Basics.",
-            qual: "Demonstrated analytical com
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const store=()=>{try{localStorage.setItem("gc-chats",JSON.stringify(chats))}catch(e){}};
+let chats=load("gc-chats",[]),cur=null,busy=false,ctrl=null,sp=null;
+const SYS="You are GPTChat, a friendly and helpful assistant. Reply in the same language the user writes in (Hindi, Hinglish or English). Be clear and concise. Use short paragraphs and code blocks when useful.";
+const SUG=["Python mein ek calculator banao","Mujhe 5 din ka study plan do","Email likhne mein help karo","/image sunset mein ek chhota ghar"];
+function fmt(t){return t.split("```").map((p,i)=>{
+  if(i%2){const nl=p.indexOf("\n");const code=nl>-1?p.slice(nl+1):p;return "<pre><code>"+esc(code.replace(/\n$/,""))+"</code></pre>"}
+  return esc(p).replace(/`([^`\n]+)`/g,"<code>$1</code>").replace(/\*\*([^*\n]+)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>")}).join("")}
+const curChat=()=>chats.find(c=>c.id===cur);
+function msgHTML(m,i){return m.role==="user"
+  ?`<div class="row u"><div class="b">${esc(m.content).replace(/\n/g,"<br>")}</div></div>`
+  :`<div class="row"><div class="av">G</div><div><div class="b">${m.img?imgHTML(m):m.content?fmt(m.content):'<div class="dots"><span></span><span></span><span></span></div>'}</div>${m.content&&!(busy&&i===curChat().m.length-1)?`<button class="cp" data-c="${i}">Copy</button>`:""}</div></div>`}
+function render(){
+  const c=curChat();
+  $("wrap").innerHTML=c&&c.m.length?c.m.map(msgHTML).join(""):`<div class="empty"><h1>GPTChat</h1><p>Aaj main tumhari kya madad karun?</p><div class="sug">${SUG.map(s=>`<button data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>`;
+  $("list").innerHTML=chats.map(x=>`<div class="ch ${x.id===cur?"on":""}" data-id="${x.id}"><span>${esc(x.t)}</span><button data-del="${x.id}" aria-label="Delete chat">✕</button></div>`).join("");
+  $("msgs").scrollTop=$("msgs").scrollHeight;$("go").disabled=false;$("go").textContent=busy?"■":"➤";
+}
+function paint(a){const rows=$("wrap").children;const b=rows[rows.length-1].querySelector(".b");b.innerHTML=a.content?fmt(a.content):b.innerHTML;$("msgs").scrollTop=$("msgs").scrollHeight}
+const IMG=/^\/(image|img)\s+/i;let imgMode=false;
+function imgHTML(m){return `<img class="gen" src="${esc(m.img)}" alt="${esc(m.alt||"image")}" onerror="this.outerHTML='<p>Image nahi ban payi. Thodi der baad try karo.</p>'"><a class="dl" href="${esc(m.img)}" download="gptchat.jpg">Download</a>`}
+async function send(text){
+  text=text.trim();if(!text||busy)return;
+  const isImg=imgMode||IMG.test(text),prompt=text.replace(IMG,"");
+  let c=curChat();if(!c){c={id:Date.now()+"",t:text.slice(0,38),m:[]};chats.unshift(c);cur=c.id}
+  c.m.push({role:"user",content:text});
+  const a={role:"assistant",content:"",img:isImg?"https://image.pollinations.ai/prompt/"+encodeURIComponent(prompt)+"?width=768&height=768&nologo=true&seed="+Date.now():null,alt:prompt};c.m.push(a);
+  $("in").value="";$("in").style.height="auto";
+  if(isImg){store();render();return}
+  busy=true;render();
+  try{
+    const msgs=c.m.slice(0,-1).slice(-19).filter(m=>m.content).map(m=>({role:m.role,content:m.content}));
+    let k="";try{k=localStorage.getItem("gc-gkey")||""}catch(x){}
+    if(!k){a.content="Pehle left side ke 🔑 button se apni Gemini API key daalo."}
+    else{
+      const cts=[];
+      msgs.forEach(m=>{const r=m.role==="user"?"user":"model",l=cts[cts.length-1];
+        if(l&&l.role===r)l.parts[0].text+="\n\n"+m.content;else cts.push({role:r,parts:[{text:m.content}]})});
+      ctrl=new AbortController();let out="",err="";
+      for(const mo of ["gemini-3.5-flash","gemini-flash-latest"]){
+        const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+mo+":generateContent",{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({systemInstruction:{parts:[{text:SYS}]},contents:cts}),signal:ctrl.signal});
+        const d=await r.json();
+        if(r.ok){out=((d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[]).map(p=>p.text||"").join("");err="";break}
+        err=(d.error&&d.error.message)||"Kuch gadbad ho gayi.";if(r.status!==404)break;
+      }
+      a.content=out||err||"Koi jawab nahi aaya. Dobara try karo.";
+    }
+  }catch(e){a.content=e.name==="AbortError"?"(Roka gaya)":"Connect nahi ho paya. Internet ya Gemini key check karo."}
+  busy=false;ctrl=null;store();render();
+}
+$("key").onclick=()=>{const v=prompt("Gemini API key paste karo (aistudio.google.com se free milti hai). Ye sirf tumhare browser mein save hogi:");if(v){try{localStorage.setItem("gc-gkey",v.trim())}catch(e){}alert("Key save ho gayi.")}};
+$("img").onclick=()=>{imgMode=!imgMode;$("img").classList.toggle("on",imgMode);$("in").placeholder=imgMode?"Image ka description likho...":"Kuch bhi poochho..."};
+$("go").onclick=()=>{if(busy&&ctrl)ctrl.abort();else send($("in").value)};
+$("in").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send($("in").value)}};
+$("in").oninput=e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,180)+"px"};
+$("new").onclick=()=>{if(busy)return;cur=null;render();$("side").classList.remove("open");$("in").focus()};
+$("menu").onclick=()=>$("side").classList.toggle("open");
+$("list").onclick=e=>{if(busy)return;const d=e.target.dataset.del;
+  if(d){chats=chats.filter(x=>x.id!==d);if(cur===d)cur=null;store();render();return}
+  const ch=e.target.closest(".ch");if(ch){cur=ch.dataset.id;render();$("side").classList.remove("open")}};
+$("wrap").onclick=e=>{const s=e.target.dataset.s;if(s){send(s);return}
+  const i=e.target.dataset.c;if(i!==undefined){const t=curChat().m[+i].content;try{navigator.clipboard.writeText(t);e.target.textContent="Copied"}catch(x){}}};
+render();
+</script>
+</body>
+</html>
